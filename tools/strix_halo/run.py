@@ -1,5 +1,6 @@
 """Single-request Strix Halo reference runner with Nerv's ablation and the checkpoint's vision tower."""
 import argparse
+import hashlib
 import json
 from time import perf_counter
 from pathlib import Path
@@ -56,6 +57,8 @@ def main():
     parser.add_argument("--reference-experts", action="store_true")
     parser.add_argument("--backend", choices=("auto", "native", "triton"), default="auto",
                         help="auto uses compiled gfx1151 operators when installed")
+    parser.add_argument("--dspark", type=int, choices=range(8), metavar="0..7",
+                        help="number of DSpark guesses (native default: 4; 0 disables drafting)")
     args = parser.parse_args()
     if args.tokens < 1:
         parser.error("--tokens must be positive")
@@ -66,14 +69,16 @@ def main():
     overlay = ablate.load_ablation(args.model_dir / "inkling-2-mini-abliterated.safetensors")
     if not args.reference_experts:
         ref.PackedExperts.forward = packed_forward
-    from native_decode import library_path, install_conv, install_matvec
+    from native_decode import library_path, install_conv, install_matvec, install_experts
     native = args.backend == "native" or (args.backend == "auto" and library_path().is_file()
                                           and not args.reference_experts)
+    depth = args.dspark if args.dspark is not None else (4 if native else 0)
     if native and args.reference_experts:
         parser.error("--reference-experts requires the reference backend")
     if native and not library_path().is_file():
         parser.error("build the gfx1151 operators with native/strix/build.sh first")
     conv_stats = install_conv() if native else {}
+    expert_stats = install_experts() if native else {}
     model, tokenizer = ref.load(args.model_dir)
     gemv_stats = install_matvec(model) if native else {}
     visits = ref.Visits(model)
@@ -98,11 +103,19 @@ def main():
     ends = [tokenizer.convert_tokens_to_ids(t) for t in ablate.END_TOKENS]
     start = perf_counter()
     with torch.inference_mode():
-        out = model.generate(**tokens, **kwargs, max_new_tokens=args.tokens, do_sample=False,
+        spec_stats = {}
+        if depth:
+            from dspark import generate
+            out, spec_stats = generate(model, tokens, kwargs, args.tokens, ends, clock, args.model_dir, visits, depth)
+        else:
+            out = model.generate(**tokens, **kwargs, max_new_tokens=args.tokens, do_sample=False,
                              eos_token_id=ends, streamer=clock)
     times = clock.steps[1:]
-    print(json.dumps({"backend": "native" if native else "reference" if args.reference_experts else "triton",
-                      **conv_stats, **gemv_stats, "output_tokens": len(times), "ttft_s": times[0] - start,
+    ids = out[0, tokens.input_ids.size(1):].detach().cpu().numpy().astype("<i4", copy=False)
+    print(json.dumps({"prompt_tokens": tokens.input_ids.size(1), "dspark_depth": depth,
+                      "output_id_sha256": hashlib.sha256(ids.tobytes()).hexdigest(),
+                      "backend": "native" if native else "reference" if args.reference_experts else "triton",
+                      **spec_stats, **expert_stats, **conv_stats, **gemv_stats, "output_tokens": len(times), "ttft_s": times[0] - start,
                       "p95_intertoken_ms": float(np.percentile(np.diff(times), 95) * 1000) if len(times) > 1 else None,
                       "decode_tps": (len(times) - 1) / (times[-1] - times[0]) if len(times) > 1 else None}),
           file=sys.stderr)

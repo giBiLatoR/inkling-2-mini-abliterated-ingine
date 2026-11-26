@@ -1,0 +1,254 @@
+{
+  "device": "Radeon 8060S gfx1151, single request, same abliterated checkpoint and overlay as parent",
+  "weights": "cea73d67cd0e424c14c8b5cd276a9a2c2a5d7cbd",
+  "method": "Greedy direct answers. Decode excludes the first generated token. Verified tokens can arrive in a burst. TTFT includes DSpark initialization, excludes target model load. Each entry is one invocation.",
+  "counts_96": [
+    {
+      "prompt_tokens": 33,
+      "dspark_depth": 0,
+      "output_id_sha256": "e17d7f06973ebb984505c9e3fb4c5bdfce64b54358475812180321a7cbf523d3",
+      "backend": "native",
+      "native_expert_calls": 9216,
+      "native_conv_calls": 16720,
+      "native_gemv_calls": 60896,
+      "output_tokens": 96,
+      "ttft_s": 1.4859107569791377,
+      "p95_intertoken_ms": 81.64793939795345,
+      "decode_tps": 12.301300267571452
+    },
+    {
+      "prompt_tokens": 33,
+      "dspark_depth": 4,
+      "output_id_sha256": "e17d7f06973ebb984505c9e3fb4c5bdfce64b54358475812180321a7cbf523d3",
+      "backend": "native",
+      "verification_rounds": 19,
+      "proposed": 76,
+      "accepted": 76,
+      "native_expert_calls": 1920,
+      "native_conv_calls": 0,
+      "native_gemv_calls": 1,
+      "output_tokens": 96,
+      "ttft_s": 1.6083571179769933,
+      "p95_intertoken_ms": 168.43212207313627,
+      "decode_tps": 29.480229801025818
+    }
+  ],
+  "coding_128": [
+    {
+      "prompt_tokens": 34,
+      "dspark_depth": 0,
+      "output_id_sha256": "1ec774ca15479a2dbcb19c52975beaf64a27d12a1bbbe48bd73a4b6208a086e7",
+      "backend": "native",
+      "native_expert_calls": 12288,
+      "native_conv_calls": 22352,
+      "native_gemv_calls": 81408,
+      "output_tokens": 128,
+      "ttft_s": 1.4782444941811264,
+      "p95_intertoken_ms": 82.19942436553538,
+      "decode_tps": 12.275314332118638
+    },
+    {
+      "prompt_tokens": 34,
+      "dspark_depth": 4,
+      "output_id_sha256": "403d212cbad965e082f7247478035933c8f57f4c691606f50a574c20fb71631d",
+      "backend": "native",
+      "verification_rounds": 33,
+      "proposed": 132,
+      "accepted": 94,
+      "native_expert_calls": 3264,
+      "native_conv_calls": 0,
+      "native_gemv_calls": 1,
+      "output_tokens": 128,
+      "ttft_s": 1.6426371620036662,
+      "p95_intertoken_ms": 168.8506499864161,
+      "decode_tps": 22.72884698104886
+    },
+    {
+      "prompt_tokens": 34,
+      "dspark_depth": 7,
+      "output_id_sha256": "2d5e2c5340266a3aefda2480caa4016c93a0925913bf77ce77e1bcdd84f4b70f",
+      "backend": "native",
+      "verification_rounds": 28,
+      "proposed": 194,
+      "accepted": 99,
+      "native_expert_calls": 2784,
+      "native_conv_calls": 0,
+      "native_gemv_calls": 1,
+      "output_tokens": 128,
+      "ttft_s": 1.6234753590542823,
+      "p95_intertoken_ms": 209.76817945484072,
+      "decode_tps": 21.557951828208374
+    }
+  ],
+  "complete_function": [
+    {
+      "prompt_tokens": 71,
+      "dspark_depth": 0,
+      "output_id_sha256": "071993a508dafd2e08f6e03f488d4814713f52b3c124278044cc08355c37fb27",
+      "backend": "native",
+      "native_expert_calls": 14304,
+      "native_conv_calls": 26048,
+      "native_gemv_calls": 94869,
+      "output_tokens": 149,
+      "ttft_s": 2.071128146024421,
+      "p95_intertoken_ms": 82.33809223165736,
+      "decode_tps": 12.22843497395736
+    },
+    {
+      "prompt_tokens": 71,
+      "dspark_depth": 4,
+      "output_id_sha256": "071993a508dafd2e08f6e03f488d4814713f52b3c124278044cc08355c37fb27",
+      "backend": "native",
+      "verification_rounds": 34,
+      "proposed": 136,
+      "accepted": 116,
+      "native_expert_calls": 3360,
+      "native_conv_calls": 0,
+      "native_gemv_calls": 1,
+      "output_tokens": 149,
+      "ttft_s": 2.144939651945606,
+      "p95_intertoken_ms": 169.60157089633867,
+      "decode_tps": 25.66059665212704
+    }
+  ],
+  "function_checks": "Identical output token IDs. Seven behavioral checks per output including no mutation, touching, unsorted, nested, empty and negative intervals.",
+  "forced_rejection_32": [
+    {
+      "prompt_tokens": 33,
+      "dspark_depth": 0,
+      "output_id_sha256": "5b395a1820a4c5901f0449cda0c20af36d9128b22a626ae7b55ecbed36da2d5c",
+      "backend": "native",
+      "native_expert_calls": 3072,
+      "native_conv_calls": 5456,
+      "native_gemv_calls": 19872,
+      "output_tokens": 32,
+      "ttft_s": 1.4660829599015415,
+      "p95_intertoken_ms": 81.2757225940004,
+      "decode_tps": 12.333269228869403
+    },
+    {
+      "prompt_tokens": 33,
+      "dspark_depth": 4,
+      "output_id_sha256": "5b395a1820a4c5901f0449cda0c20af36d9128b22a626ae7b55ecbed36da2d5c",
+      "backend": "native",
+      "verification_rounds": 31,
+      "proposed": 114,
+      "accepted": 0,
+      "native_expert_calls": 3072,
+      "native_conv_calls": 0,
+      "native_gemv_calls": 642,
+      "output_tokens": 32,
+      "ttft_s": 1.616289442870766,
+      "p95_intertoken_ms": 166.70133464504033,
+      "decode_tps": 6.253540988035645
+    }
+  ],
+  "cross_window_48": [
+    {
+      "prompt_tokens": 1012,
+      "dspark_depth": 0,
+      "output_id_sha256": "ca3ac1c9f83850922a97cbf090c83d0456980cc76a55922cdd476f291b922185",
+      "backend": "native",
+      "native_expert_calls": 4608,
+      "native_conv_calls": 8272,
+      "native_gemv_calls": 30128,
+      "output_tokens": 48,
+      "ttft_s": 15.736306866863742,
+      "p95_intertoken_ms": 90.94094154424965,
+      "decode_tps": 10.972059395899668
+    },
+    {
+      "prompt_tokens": 1012,
+      "dspark_depth": 4,
+      "output_id_sha256": "ca3ac1c9f83850922a97cbf090c83d0456980cc76a55922cdd476f291b922185",
+      "backend": "native",
+      "verification_rounds": 10,
+      "proposed": 39,
+      "accepted": 37,
+      "native_expert_calls": 1056,
+      "native_conv_calls": 0,
+      "native_gemv_calls": 1,
+      "output_tokens": 48,
+      "ttft_s": 16.016615187982097,
+      "p95_intertoken_ms": 179.84421306755394,
+      "decode_tps": 25.57795890743189
+    }
+  ],
+  "vision_answers": {
+    "solid_red_40x40": "Red",
+    "solid_blue_40x40": "Blue",
+    "text_inkling42_320x80": "INKLING 42"
+  },
+  "numeric_checks": [
+    {
+      "layer": 0,
+      "projection": "w13",
+      "relative_rms": 8.5809915617574e-05,
+      "reference": {
+        "median_ms": 12.388271046802402,
+        "p95_ms": 12.48134789057076
+      },
+      "packed": {
+        "median_ms": 0.18955394625663757,
+        "p95_ms": 0.19591301679611206
+      }
+    },
+    {
+      "layer": 0,
+      "projection": "w2",
+      "relative_rms": 1.8058246951113688e-06,
+      "reference": {
+        "median_ms": 2.597860060632229,
+        "p95_ms": 2.610360039398074
+      },
+      "packed": {
+        "median_ms": 0.12077507562935352,
+        "p95_ms": 0.17264415509998798
+      }
+    },
+    {
+      "layer": 0,
+      "whole_expert_block_relative_rms": 0.0008872018661350012
+    },
+    {
+      "layer": 20,
+      "projection": "w13",
+      "relative_rms": 2.958864570246078e-05,
+      "reference": {
+        "median_ms": 4.499394912272692,
+        "p95_ms": 4.507883917540312
+      },
+      "packed": {
+        "median_ms": 0.32139895483851433,
+        "p95_ms": 0.32441806979477406
+      }
+    },
+    {
+      "layer": 20,
+      "projection": "w2",
+      "relative_rms": 2.8792517696274444e-05,
+      "reference": {
+        "median_ms": 1.0735830292105675,
+        "p95_ms": 1.0751630179584026
+      },
+      "packed": {
+        "median_ms": 0.12682517990469933,
+        "p95_ms": 0.12832600623369217
+      }
+    },
+    {
+      "layer": 20,
+      "whole_expert_block_relative_rms": 0.00010648878378560767
+    }
+  ],
+  "prompts": {
+    "counts_96": "List the counting numbers from one to fifty separated by commas. Begin with 1.",
+    "coding_128": "Write a Python function that merges overlapping integer intervals, then demonstrate it on three intervals.",
+    "complete_function": "Return only one Python code block defining merge_intervals(intervals). Each input item is a pair (start, end). Return a sorted list of tuples, merging overlapping or touching intervals, without mutating the input. Include no examples or commentary."
+  },
+  "former_native_baseline": {
+    "commit": "26ca61b014d53764bad4ddef874f5f8cb75820e9",
+    "source": "native-measurements.json",
+    "median_counts_96_decode_tps": 10.895470392448491
+  }
+}
