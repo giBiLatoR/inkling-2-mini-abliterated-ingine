@@ -1,0 +1,112 @@
+{
+  "device": "Ryzen AI Max+ 395 / Radeon 8060S (gfx1151)",
+  "upstream": "556acc7cf42749536684854a6df820e41258f929",
+  "weights": "cea73d67cd0e424c14c8b5cd276a9a2c2a5d7cbd",
+  "verified_manifest_entries": 32,
+  "setup": "Torch 2.12.0a0+rocm7.13.0a20260411, Triton 3.7.0, Linux 7.0.0-43-generic",
+  "task": "List the counting numbers from one to fifty separated by commas. Begin with 1.",
+  "method": "One request per invocation, greedy direct answers, 32 output tokens; TTFT excludes loading. Inter-token throughput excludes the first token. Filesystem and JIT caches are shared across trials.",
+  "same_text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,",
+  "timing": {
+    "upstream_reference": [
+      {
+        "output_tokens": 32,
+        "ttft_s": 6.12132543604821,
+        "decode_tps": 1.206172524963833
+      }
+    ],
+    "packed_experts": [
+      {
+        "output_tokens": 32,
+        "ttft_s": 1.7678848190698773,
+        "decode_tps": 7.347416553712385
+      },
+      {
+        "output_tokens": 32,
+        "ttft_s": 1.7805205169133842,
+        "decode_tps": 7.338476306654403
+      },
+      {
+        "output_tokens": 32,
+        "ttft_s": 1.7681136189494282,
+        "decode_tps": 7.3389171236660555
+      }
+    ],
+    "packed_experts_and_fused_overlay": [
+      {
+        "output_tokens": 32,
+        "ttft_s": 1.7639419939368963,
+        "decode_tps": 8.419764570659963
+      },
+      {
+        "output_tokens": 32,
+        "ttft_s": 1.7551724161021411,
+        "decode_tps": 8.409622069807993
+      },
+      {
+        "output_tokens": 32,
+        "ttft_s": 1.7709108260460198,
+        "decode_tps": 8.41133454410471
+      }
+    ]
+  },
+  "vision": {
+    "solid_red_40x40": "Red",
+    "solid_blue_40x40": "Blue",
+    "text_inkling42_320x80": "INKLING 42"
+  },
+  "real_weight_kernel_checks": [
+    {
+      "layer": 0,
+      "projection": "w13",
+      "relative_rms": 8.5809915617574e-05,
+      "reference": {
+        "median_ms": 12.220100965350866,
+        "p95_ms": 12.280019000172615
+      },
+      "packed": {
+        "median_ms": 0.33318810164928436,
+        "p95_ms": 0.34647691063582897
+      }
+    },
+    {
+      "layer": 0,
+      "projection": "w2",
+      "relative_rms": 2.3088497869139246e-07,
+      "reference": {
+        "median_ms": 2.6480250526219606,
+        "p95_ms": 2.6613541413098574
+      },
+      "packed": {
+        "median_ms": 0.19172299653291702,
+        "p95_ms": 0.1935830805450678
+      }
+    },
+    {
+      "layer": 20,
+      "projection": "w13",
+      "relative_rms": 2.899450009863358e-05,
+      "reference": {
+        "median_ms": 4.438759991899133,
+        "p95_ms": 4.4533200562000275
+      },
+      "packed": {
+        "median_ms": 0.35885698162019253,
+        "p95_ms": 0.37298700772225857
+      }
+    },
+    {
+      "layer": 20,
+      "projection": "w2",
+      "relative_rms": 5.7531276979716495e-05,
+      "reference": {
+        "median_ms": 1.0671920608729124,
+        "p95_ms": 1.0691620409488678
+      },
+      "packed": {
+        "median_ms": 0.19907299429178238,
+        "p95_ms": 0.20110304467380047
+      }
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # Inkling-2-Mini abliterated: ingine
 
+**AMD Strix Halo fork** — [Run the Radeon 8060S text and vision prototype](tools/strix_halo/README.md). The setup and RTX 5090 figures below describe upstream CUDA ingine.
+
 An abliterated [thinkingmachines/Inkling-2-Mini](https://huggingface.co/thinkingmachines/Inkling-2-Mini) served
 by **ingine**, a custom CUDA inference engine for one RTX 5090. It answers harmful test prompts instead of refusing
 them, directly and after reasoning (refusal phrases in 1 of 104 and 3 of 48 answers, the 3 followed by the requested
