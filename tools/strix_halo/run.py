@@ -54,6 +54,8 @@ def main():
     parser.add_argument("--image", type=Path)
     parser.add_argument("--tokens", type=int, default=32)
     parser.add_argument("--reference-experts", action="store_true")
+    parser.add_argument("--backend", choices=("auto", "native", "triton"), default="auto",
+                        help="auto uses compiled gfx1151 operators when installed")
     args = parser.parse_args()
     if args.tokens < 1:
         parser.error("--tokens must be positive")
@@ -64,7 +66,16 @@ def main():
     overlay = ablate.load_ablation(args.model_dir / "inkling-2-mini-abliterated.safetensors")
     if not args.reference_experts:
         ref.PackedExperts.forward = packed_forward
+    from native_decode import library_path, install_conv, install_matvec
+    native = args.backend == "native" or (args.backend == "auto" and library_path().is_file()
+                                          and not args.reference_experts)
+    if native and args.reference_experts:
+        parser.error("--reference-experts requires the reference backend")
+    if native and not library_path().is_file():
+        parser.error("build the gfx1151 operators with native/strix/build.sh first")
+    conv_stats = install_conv() if native else {}
     model, tokenizer = ref.load(args.model_dir)
+    gemv_stats = install_matvec(model) if native else {}
     visits = ref.Visits(model)
     hook = (ref.Ablation if args.reference_experts else StrixAblation)(model, visits)
     ablate.apply_ablation(SimpleNamespace(ablation=hook), overlay)
@@ -90,7 +101,9 @@ def main():
         out = model.generate(**tokens, **kwargs, max_new_tokens=args.tokens, do_sample=False,
                              eos_token_id=ends, streamer=clock)
     times = clock.steps[1:]
-    print(json.dumps({"output_tokens": len(times), "ttft_s": times[0] - start,
+    print(json.dumps({"backend": "native" if native else "reference" if args.reference_experts else "triton",
+                      **conv_stats, **gemv_stats, "output_tokens": len(times), "ttft_s": times[0] - start,
+                      "p95_intertoken_ms": float(np.percentile(np.diff(times), 95) * 1000) if len(times) > 1 else None,
                       "decode_tps": (len(times) - 1) / (times[-1] - times[0]) if len(times) > 1 else None}),
           file=sys.stderr)
     print(tokenizer.decode(out[0, tokens.input_ids.size(1):], skip_special_tokens=True))

@@ -17,3 +17,9 @@ python tools/strix_halo/check_residual.py models/Inkling
 ```
 
 Add `--reference-experts` to compare the original dequantize-then-multiply experts and unfused ablation hooks on the same GPU. Both paths load the same detector, visit weights and directions and request a direct answer. The CLI writes the answer to stdout and timing to stderr. Time to first token begins immediately before generation, after model loading. Decode throughput counts the remaining token intervals and includes a generated stop token if present. The kernel comparison uses three warmups and 21 synchronized samples per projection. A new CLI invocation reloads the model. See [the on-device measurements](measurements.json).
+
+## Native Radeon decode operators
+
+With a gfx1151-capable ROCm HIP SDK, run `native/strix/build.sh` from the repository root. Set `ROCM_PATH` to the SDK root if it is outside `/opt/rocm`. The script compiles C++/HIP for gfx1151 and installs the library under `native/build-strix/`. The existing Strix CLI automatically uses it. Choose `--backend triton` to compare the previous implementation, or `--backend native` to require the build. Run `python tools/strix_halo/check_native.py` for operator parity.
+
+The library implements batch-one four-tap causal convolution with history update and single-vector BF16/FP32 dense projections using one wave32 per output row. Prefill and unsupported shapes retain the previous operators. The JSON timing record includes native dispatch counts and p95 inter-token latency. [Matched NUC measurements](native-measurements.json) cover short-context decode.

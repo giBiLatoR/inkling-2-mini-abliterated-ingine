@@ -1,0 +1,67 @@
+{
+  "device": "Ryzen AI Max+ 395, Radeon 8060S gfx1151",
+  "checkpoint": "cea73d67cd0e424c14c8b5cd276a9a2c2a5d7cbd",
+  "parent_build": "55498d5d703654a37c32e1ccd03101da1528f56c",
+  "prompt": "List the counting numbers from one to fifty separated by commas. Begin with 1.",
+  "method": "One request per CLI invocation. Greedy direct response, 96 output tokens. Model loading excluded. Same decoded text on all six runs.",
+  "baseline": [
+    {
+      "output_tokens": 96,
+      "ttft_s": 1.7694126691203564,
+      "decode_tps": 8.400739574513896
+    },
+    {
+      "output_tokens": 96,
+      "ttft_s": 1.7702496580313891,
+      "decode_tps": 8.401294756867621
+    },
+    {
+      "backend": "triton",
+      "output_tokens": 96,
+      "ttft_s": 1.763976403977722,
+      "p95_intertoken_ms": 119.68848281539977,
+      "decode_tps": 8.399239569742335
+    }
+  ],
+  "native": [
+    {
+      "native_conv_calls": 16720,
+      "native_gemv_calls": 60896,
+      "output_tokens": 96,
+      "ttft_s": 1.777744899969548,
+      "decode_tps": 10.894907356464433
+    },
+    {
+      "native_conv_calls": 16720,
+      "native_gemv_calls": 60896,
+      "output_tokens": 96,
+      "ttft_s": 1.768283569952473,
+      "decode_tps": 10.89854877944866
+    },
+    {
+      "backend": "native",
+      "native_conv_calls": 16720,
+      "native_gemv_calls": 60896,
+      "output_tokens": 96,
+      "ttft_s": 1.786683029960841,
+      "p95_intertoken_ms": 92.3549034865573,
+      "decode_tps": 10.895470392448491
+    }
+  ],
+  "vision": {
+    "new-solid_red_40x40": "Red",
+    "new-solid_blue_40x40": "Blue",
+    "new-text_inkling42_320x80": "INKLING 42",
+    "release-ocr": "INKLING 42"
+  },
+  "experimental_native_plus_graph": {
+    "native_conv_calls": 352,
+    "native_gemv_calls": 1283,
+    "capture_s": 0.20625566714443266,
+    "replay_tokens": 94,
+    "replay_tps": 10.789012841721453,
+    "output_tokens": 96,
+    "ttft_s": 1.7384710479527712,
+    "decode_tps": 10.5385987101528
+  }
+}
